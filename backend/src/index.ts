@@ -19,6 +19,8 @@ import analyticsRoutes from "./routes/analytics.route";
 const app = express();
 const BASE_PATH = Env.BASE_PATH;
 const PORT = process.env.PORT || Env.PORT || 5000;
+
+// Note: Ensure Env.FRONTEND_ORIGIN on Render is set to your Vercel URL!
 const allowedOrigins = Env.FRONTEND_ORIGIN.split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -61,7 +63,7 @@ app.use(`${BASE_PATH}/analytics`, passportAuthenticateJwt, analyticsRoutes);
 
 app.use(errorHandler);
 
-app.listen(PORT, async () => {
+app.listen(PORT as number, "0.0.0.0", async () => {
   await connctDatabase();
 
   if (Env.ENABLE_CRONS) {
