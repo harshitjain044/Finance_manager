@@ -2,6 +2,7 @@ import {
   Strategy as JwtStrategy,
   ExtractJwt,
   StrategyOptions,
+  VerifiedCallback
 } from "passport-jwt";
 import passport from "passport";
 import { Env } from "./env.config";
@@ -19,7 +20,7 @@ const options: StrategyOptions = {
 };
 
 passport.use(
-  new JwtStrategy(options, async (payload: JwtPayload, done) => {
+  new JwtStrategy(options, async (payload: JwtPayload, done: VerifiedCallback) => {
     try {
       if (!payload.userId) {
         return done(null, false, { message: "Invalid token payload" });
@@ -37,8 +38,8 @@ passport.use(
   })
 );
 
-passport.serializeUser((user: any, done) => done(null, user));
-passport.deserializeUser((user: any, done) => done(null, user));
+passport.serializeUser((user: any, done: (err: any, id?: any) => void) => done(null, user));
+passport.deserializeUser((user: any, done: (err: any, user?: any) => void) => done(null, user));
 
 export const passportAuthenticateJwt = passport.authenticate("jwt", {
   session: false,
