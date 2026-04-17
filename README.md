@@ -478,7 +478,7 @@ npm run dev
 Frontend default dev server:
 
 ```text
-http://localhost:5173
+https://spendlyet.vercel.app/
 ```
 
 ## Available Scripts
